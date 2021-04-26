@@ -1,0 +1,8 @@
+char WIFI_SSID[] = "";
+char WIFI_PASSWORD[] = "";
+char SERVER_TO_SEND_DATA[] = "";
+
+int SPRAY_INTERVAL = 60000;
+int READ_DATA_TIME = 10000;
+
+int RELAY_PIN = 8;
