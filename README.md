@@ -1,19 +1,26 @@
 ## Setup
 
+#### Download libraries
+
+Download from library manager:
+
+- WiFiEsp
+- Neotimer
+
+Download from github:
+
+- DFRobot_SHT20
+
+#### Project
+
 1. Setup variables in [conf.h](./conf.h) file
 2. [...]
 
-#### Pins
+## Sensors and pins
 
-humidy sensor:
--VCC = 3.3V
--GND = GND
--SDA = A4 (use inline 330 ohm resistor if your board is 5V)
--SCL = A5 (use inline 330 ohm resistor if your board is 5V)
+#### Relay
 
-spray relay: pin 8
-
-## Sensors
+Pin: 8
 
 #### SHT20
 
@@ -33,3 +40,4 @@ Hardware Connections:
 
 - [DFRobot_SHT20](https://github.com/DFRobot/DFRobot_SHT20)
 - [Neotimer](https://github.com/jrullan/neotimer)
+- [WiFiEsp](https://github.com/bportaluri/WiFiEsp)
