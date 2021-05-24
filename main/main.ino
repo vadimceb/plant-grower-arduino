@@ -4,6 +4,9 @@
 #include "DFRobot_SHT20.h"
 #include "WiFiEsp.h"
 #include "conf.h"
+#include "Wire.h"
+
+#define TCAADDR 0x70
 
 // Timers
 Neotimer sprayTimer = Neotimer();
@@ -13,25 +16,44 @@ Neotimer relayTimer = Neotimer();
 // Sensors
 DFRobot_SHT20 sht20;
 
-// WIFI
-// Emulate Serial1 on pins 6/7 if not present
-// #ifndef HAVE_HWSERIAL1
-// #include "SoftwareSerial.h"
-// SoftwareSerial Serial1(6, 7); // RX, TX
-// #endif
-
-// int status = WL_IDLE_STATUS; // the Wifi radio's status
-// WiFiEspClient client;        // Initialize the Ethernet client object
-
-void setup()
+// Helps to select i2c board
+void tcaselect(uint8_t i)
 {
-    Serial.begin(115200);
-    Serial.println();
+    if (i > 7)
+        return;
 
-    // Setup timers for spraying and reading data
-    readTimer.set(READ_DATA_TIME);
-    sprayTimer.set(SPRAY_INTERVAL);
+    Wire.beginTransmission(TCAADDR);
+    Wire.write(1 << i);
+    Wire.endTransmission();
+}
 
+void scanI2CPorts()
+{
+    Serial.println("Scan i2c channels");
+    for (uint8_t t = 0; t < 8; t++)
+    {
+        tcaselect(t);
+        Serial.print("TCA Port #");
+        Serial.println(t);
+
+        for (uint8_t addr = 0; addr <= 127; addr++)
+        {
+            if (addr == TCAADDR)
+                continue;
+
+            Wire.beginTransmission(addr);
+            if (!Wire.endTransmission())
+            {
+                Serial.print("Found I2C 0x");
+                Serial.println(addr, HEX);
+            }
+        }
+    }
+    Serial.println("\ndone");
+}
+
+void initSensors()
+{
     // Setup connectors for data sensors
     /** Hardware Connections:
      * -VCC = 3.3V
@@ -39,70 +61,70 @@ void setup()
      * -SDA = A4 (use inline 330 ohm resistor if your board is 5V)
      * -SCL = A5 (use inline 330 ohm resistor if your board is 5V)
      */
-    sht20.initSHT20(); // Init SHT20 Sensor
-    delay(100);
-    sht20.checkSHT20(); // Check SHT20 Sensor
+
+    int size = sizeof SHT20_SENSORS_CH / sizeof *SHT20_SENSORS_CH;
+    for (int i = 0; i < size; i++)
+    {
+        Serial.println("INIT SHT20: " + String(i));
+        tcaselect(SHT20_SENSORS_CH[i]);
+        sht20.initSHT20();  // Init SHT20 Sensor
+        sht20.checkSHT20(); // Check SHT20 Sensor
+    }
+}
+
+void setup()
+{
+
+    while (!Serial)
+    {
+    }
+
+    delay(1000);
+
+    Wire.begin();
+
+    Serial.begin(115200);
+    Serial.println();
+
+    // Setup timers for spraying and reading data
+    readTimer.set(READ_DATA_TIME);
+    if (ACTIVATE_SPRAY)
+    {
+        sprayTimer.set(SPRAY_INTERVAL);
+    }
+
+    initSensors();
 
     // Setup relays
     pinMode(RELAY_PIN_1, OUTPUT);
     pinMode(RELAY_PIN_2, OUTPUT);
-
-    // setupWifi();
 }
-
-// void setupWifi()
-// {
-//     Serial1.begin(9600);
-//     // initialize ESP module
-//     WiFi.init(&Serial1);
-
-//     // check for the presence of the shield
-//     if (WiFi.status() == WL_NO_SHIELD)
-//     {
-//         Serial.println("WiFi shield not present");
-//         // don't continue
-//         while (true)
-//         {
-//         }
-//     }
-
-//     // attempt to connect to WiFi network
-//     while (status != WL_CONNECTED)
-//     {
-//         Serial.print("Attempting to connect to WPA SSID: ");
-//         Serial.println(WIFI_SSID);
-//         // Connect to WPA/WPA2 network
-//         status = WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-//     }
-
-//     Serial.println("You're connected to the network");
-//     printWifiData();
-// }
-
-// void printWifiData()
-// {
-//     // print your WiFi shield's IP address
-//     IPAddress ip = WiFi.localIP();
-//     Serial.print("IP Address: ");
-//     Serial.println(ip);
-// }
 
 void loop()
 {
-    if (sprayTimer.repeat())
+    if (ACTIVATE_SPRAY)
     {
-        spray();
+        if (sprayTimer.repeat())
+        {
+            spray();
+        }
+
+        if (relayTimer.done())
+        {
+            stopSpray();
+        }
     }
 
     if (readTimer.repeat())
     {
-        Serial.println(">> readTimer");
-        readSensorsData();
-    }
-
-    if (relayTimer.done())
-    {
-        stopSpray();
+        Serial.println(">> Sensor SHT20");
+        int size = sizeof SHT20_SENSORS_CH / sizeof *SHT20_SENSORS_CH;
+        for (int i = 0; i < size; i++)
+        {
+            int ch = SHT20_SENSORS_CH[i];
+            tcaselect(ch);
+            readSensorsData(ch);
+        }
     }
 }
 
@@ -110,7 +132,7 @@ void spray()
 {
     digitalWrite(RELAY_PIN_1, HIGH);
     digitalWrite(RELAY_PIN_2, HIGH);
-    relayTimer.set(500);
+    relayTimer.set(SPRAY_TIME_DURATION);
     relayTimer.start();
 }
 
@@ -122,11 +144,11 @@ void stopSpray()
     digitalWrite(RELAY_PIN_2, LOW);
 }
 
-void readSensorsData()
+void readSensorsData(int i)
 {
     float temp = readTemperature();
     float humd = readHumidity();
-    Serial.println("data|t"+String(temp)+";h"+String(humd)+";");
+    Serial.println("data" + String(i) + "|t" + String(temp) + ";h" + String(humd) + ";");
     // sendData(0, humd);
 }
 
@@ -141,19 +163,3 @@ float readHumidity()
     float humd = sht20.readHumidity(); // Read Humidity
     return humd;
 }
-
-// bool sendData(float temp, float humd)
-// {
-//     int currTime = millis();
-
-//     //TODO: to be implemented
-//     if (client.connect(SERVER_TO_SEND_DATA, 80))
-//     {
-//         Serial.println("Connected to server");
-//         // Make a HTTP request
-//         client.println("GET /asciilogo.txt HTTP/1.1");
-//         client.println("Host: arduino.cc");
-//         client.println("Connection: close");
-//         client.println();
-//     }
-// }
