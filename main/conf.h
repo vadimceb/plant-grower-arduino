@@ -1,9 +1,10 @@
-char WIFI_SSID[] = "";
-char WIFI_PASSWORD[] = "";
-char SERVER_TO_SEND_DATA[] = "";
+bool ACTIVATE_SPRAY = false;
 
 int SPRAY_INTERVAL = 20000;
-int READ_DATA_TIME = 5000;
+int READ_DATA_TIME = 3000;
+int SPRAY_TIME_DURATION = 500;
 
 int RELAY_PIN_1 = 8;
 int RELAY_PIN_2 = 2;
+
+const int SHT20_SENSORS_CH[] = {0, 1};
