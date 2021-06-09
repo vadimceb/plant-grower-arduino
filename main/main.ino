@@ -105,25 +105,25 @@ void setup()
     pinMode(RELAY_PIN_2, OUTPUT);
 
     // Relay 3
-    //     pinMode(RELAY_PIN_3, OUTPUT);
+    pinMode(RELAY_PIN_3, OUTPUT);
 
-    //     // Relay 4
-    //     pinMode(RELAY_PIN_4, OUTPUT);
+    // Relay 4
+    pinMode(RELAY_PIN_4, OUTPUT);
 
-    //     // Relay 5
-    //     pinMode(RELAY_PIN_5, OUTPUT);
+    // Relay 5
+    pinMode(RELAY_PIN_5, OUTPUT);
 
-    //     // Relay 6
-    //     pinMode(RELAY_PIN_6, OUTPUT);
+    // Relay 6
+    pinMode(RELAY_PIN_6, OUTPUT);
 
-    //     // Relay 7
-    //     pinMode(RELAY_PIN_7, OUTPUT);
+    // Relay 7
+    pinMode(RELAY_PIN_7, OUTPUT);
 
-    //     // Relay 8
-    //     pinMode(RELAY_PIN_8, OUTPUT);
+    // Relay 8
+    pinMode(RELAY_PIN_8, OUTPUT);
 
-    //     // Relay 9
-    //     pinMode(RELAY_PIN_9, OUTPUT);
+    // Relay 9
+    pinMode(RELAY_PIN_9, OUTPUT);
 }
 
 void loop()
@@ -162,59 +162,59 @@ void loop()
 void activateSpray()
 {
 
-    // // Pump 1
-    // digitalWrite(RELAY_PIN_1, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 1
+    digitalWrite(RELAY_PIN_1, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 2
-    // digitalWrite(RELAY_PIN_2, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 2
+    digitalWrite(RELAY_PIN_2, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 3
-    // digitalWrite(RELAY_PIN_3, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 3
+    digitalWrite(RELAY_PIN_3, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 4
-    // digitalWrite(RELAY_PIN_4, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 4
+    digitalWrite(RELAY_PIN_4, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 5
-    // digitalWrite(RELAY_PIN_5, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // delay(delayPeriod);
-    // relayTimer.stop();
+    // Pump 5
+    digitalWrite(RELAY_PIN_5, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    delay(delayPeriod);
+    relayTimer.stop();
 
-    // // Pump 6
-    // digitalWrite(RELAY_PIN_6, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 6
+    digitalWrite(RELAY_PIN_6, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 7
-    // digitalWrite(RELAY_PIN_7, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 7
+    digitalWrite(RELAY_PIN_7, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 8
-    // digitalWrite(RELAY_PIN_8, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 8
+    digitalWrite(RELAY_PIN_8, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 
-    // // Pump 9
-    // digitalWrite(RELAY_PIN_9, HIGH);
-    // relayTimer.set(SPRAY_TIME_DURATION);
-    // relayTimer.start();
-    // delay(delayPeriod);
+    // Pump 9
+    digitalWrite(RELAY_PIN_9, HIGH);
+    relayTimer.set(SPRAY_TIME_DURATION);
+    relayTimer.start();
+    delay(delayPeriod);
 }
 
 void stopSpray()
@@ -230,37 +230,37 @@ void stopSpray()
     relayTimer.reset();
     digitalWrite(RELAY_PIN_2, LOW);
 
-    // // Pump 3
+    // Pump 3
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_3, LOW);
 
-    // // Pump 4
+    // Pump 4
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_4, LOW);
 
-    // // Pump 5
+    // Pump 5
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_5, LOW);
 
-    // // Pump 6
+    // Pump 6
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_6, LOW);
 
-    // // Pump 7
+    // Pump 7
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_7, LOW);
 
-    // // Pump 8
+    // Pump 8
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_8, LOW);
 
-    // // Pump 9
+    // Pump 9
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_9, LOW);
