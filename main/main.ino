@@ -13,6 +13,8 @@ Neotimer sprayTimer = Neotimer();
 Neotimer readTimer = Neotimer();
 Neotimer relayTimer = Neotimer();
 
+int ACTIVE_RELAY = -1;
+
 // Sensors
 DFRobot_SHT20 sht20;
 
@@ -96,8 +98,32 @@ void setup()
     initSensors();
 
     // Setup relays
+    // Relay 1
     pinMode(RELAY_PIN_1, OUTPUT);
+
+    // Relay 2
     pinMode(RELAY_PIN_2, OUTPUT);
+
+    // Relay 3
+    //     pinMode(RELAY_PIN_3, OUTPUT);
+
+    //     // Relay 4
+    //     pinMode(RELAY_PIN_4, OUTPUT);
+
+    //     // Relay 5
+    //     pinMode(RELAY_PIN_5, OUTPUT);
+
+    //     // Relay 6
+    //     pinMode(RELAY_PIN_6, OUTPUT);
+
+    //     // Relay 7
+    //     pinMode(RELAY_PIN_7, OUTPUT);
+
+    //     // Relay 8
+    //     pinMode(RELAY_PIN_8, OUTPUT);
+
+    //     // Relay 9
+    //     pinMode(RELAY_PIN_9, OUTPUT);
 }
 
 void loop()
@@ -106,12 +132,17 @@ void loop()
     {
         if (sprayTimer.repeat())
         {
-            spray();
+            activateSpray();
         }
 
         if (relayTimer.done())
         {
             stopSpray();
+            ACTIVE_RELAY = +1;
+            if (ACTIVE_RELAY == 9)
+            {
+                ACTIVE_RELAY = -1;
+            }
         }
     }
 
@@ -128,20 +159,111 @@ void loop()
     }
 }
 
-void spray()
+void activateSpray()
 {
-    digitalWrite(RELAY_PIN_1, HIGH);
-    digitalWrite(RELAY_PIN_2, HIGH);
-    relayTimer.set(SPRAY_TIME_DURATION);
-    relayTimer.start();
+
+    // // Pump 1
+    // digitalWrite(RELAY_PIN_1, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 2
+    // digitalWrite(RELAY_PIN_2, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 3
+    // digitalWrite(RELAY_PIN_3, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 4
+    // digitalWrite(RELAY_PIN_4, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 5
+    // digitalWrite(RELAY_PIN_5, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // delay(delayPeriod);
+    // relayTimer.stop();
+
+    // // Pump 6
+    // digitalWrite(RELAY_PIN_6, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 7
+    // digitalWrite(RELAY_PIN_7, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 8
+    // digitalWrite(RELAY_PIN_8, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
+
+    // // Pump 9
+    // digitalWrite(RELAY_PIN_9, HIGH);
+    // relayTimer.set(SPRAY_TIME_DURATION);
+    // relayTimer.start();
+    // delay(delayPeriod);
 }
 
 void stopSpray()
 {
+
+    // Pump 1
     relayTimer.stop();
     relayTimer.reset();
     digitalWrite(RELAY_PIN_1, LOW);
+
+    // Pump 2
+    relayTimer.stop();
+    relayTimer.reset();
     digitalWrite(RELAY_PIN_2, LOW);
+
+    // // Pump 3
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_3, LOW);
+
+    // // Pump 4
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_4, LOW);
+
+    // // Pump 5
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_5, LOW);
+
+    // // Pump 6
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_6, LOW);
+
+    // // Pump 7
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_7, LOW);
+
+    // // Pump 8
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_8, LOW);
+
+    // // Pump 9
+    relayTimer.stop();
+    relayTimer.reset();
+    digitalWrite(RELAY_PIN_9, LOW);
 }
 
 void readSensorsData(int i)
